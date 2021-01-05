@@ -4,7 +4,7 @@ class Cli
   end
   def welcome
     system('clear')
-    puts "WELCOME TO THE GAME!!!"
+    puts "WELCOME!!!"
     ask = prompt.yes?("Whould you like to see the NPCs")
     if ask 
       list_npcs
