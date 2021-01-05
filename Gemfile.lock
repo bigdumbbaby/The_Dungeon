@@ -44,6 +44,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86_64-darwin-19
 
 DEPENDENCIES
   activerecord (~> 6.0)
@@ -54,4 +55,4 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
 
 BUNDLED WITH
-   2.0.2
+   2.2.1
