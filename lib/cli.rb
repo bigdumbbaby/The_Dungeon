@@ -211,7 +211,7 @@ class Cli
 
   def bad_ending 
     system('clear')
-    puts "I'm sorry... the dragon bested you team with #{@@dragon_health} health left"
+    puts "I'm sorry... the dragon bested you and your team with #{@@dragon_health} health left"
     exit_game
   end
 
