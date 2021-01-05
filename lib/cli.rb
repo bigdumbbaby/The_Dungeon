@@ -14,6 +14,9 @@ class Cli
 
   def welcome
     system('clear')
+    puts Dragon.dragon 
+    binding.pry
+
     puts "Welcome Adventurer"
     puts "Your quest is to slay the dragon in the dungeon"
     puts "However, the dragon is tough, and you will not be able to do it alone"
@@ -126,7 +129,7 @@ class Cli
     puts "Your team is at #{@@player_health} health"
     puts "The Dragon is at #{@@dragon_health} health"
 
-    sleep(3)
+    sleep(2)
 
     attack = prompt.select("Choose attack", get_allies_attacks.pluck(:name))
     attack = Attack.gets_attack_by_name(attack)
@@ -134,7 +137,8 @@ class Cli
     puts "You did #{damage} damage to the Dragon!"
     @@dragon_health = @@dragon_health - damage
 
-    sleep(3)
+
+    sleep(2)
 
     if @@dragon_health < 1
       puts "You have defeated the Dragon!"
