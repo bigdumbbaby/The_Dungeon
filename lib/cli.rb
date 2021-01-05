@@ -126,7 +126,11 @@ class Cli
     puts "Your team is at #{@@player_health} health"
     puts "The Dragon is at #{@@dragon_health} health"
 
+
+    spinner = TTY::Spinner.new(frames:"⚔️")
+    spinner.auto_spin
     sleep(3)
+    spinner.stop
 
     attack = prompt.select("Choose attack", get_allies_attacks.pluck(:name))
     attack = Attack.gets_attack_by_name(attack)
