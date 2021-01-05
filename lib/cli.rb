@@ -131,6 +131,7 @@ class Cli
     spinner.auto_spin
     sleep(3)
     spinner.stop
+    sleep(2)
 
     attack = prompt.select("Choose attack", get_allies_attacks.pluck(:name))
     attack = Attack.gets_attack_by_name(attack)
@@ -138,7 +139,8 @@ class Cli
     puts "You did #{damage} damage to the Dragon!"
     @@dragon_health = @@dragon_health - damage
 
-    sleep(3)
+
+    sleep(2)
 
     if @@dragon_health < 1
       puts "You have defeated the Dragon!"
