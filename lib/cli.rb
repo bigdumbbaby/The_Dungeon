@@ -14,9 +14,6 @@ class Cli
 
   def welcome
     system('clear')
-    puts Dragon.dragon 
-    binding.pry
-
     puts "Welcome Adventurer"
     puts "Your quest is to slay the dragon in the dungeon"
     puts "However, the dragon is tough, and you will not be able to do it alone"
