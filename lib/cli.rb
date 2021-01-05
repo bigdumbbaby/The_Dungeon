@@ -3,7 +3,14 @@ class Cli
   ActiveRecord::Base.logger = nil
 
   def prompt
-    TTY::Prompt.new
+    TTY::Prompt.new(symbols: {marker: '🛡'})
+  end
+
+  def spinner 
+    spin= TTY::Spinner.new("[:spinner] Loading ...", format: :dots)
+    spin.auto_spin # Automatic animation with default interval
+    sleep(2) # Perform task
+    spin.stop("Done!") # Stop animation
   end
 
   def start_game
@@ -11,6 +18,7 @@ class Cli
     Npc.all.each { |person| person.update(ally: 0)}
     welcome
   end
+
 
   def welcome
     system('clear')
@@ -20,11 +28,49 @@ class Cli
     puts "So go out and find allies to heed you in the quest"
     ask = prompt.yes?("Whould you like to continue?")
     if ask 
-      list_locations
+      spinner
+      menu
     else 
       return
     end
   end
+
+  def menu 
+    system('clear')
+    menu_choices = ["List Allies", "List Attacks", "Go to Locations", "Quit Game"]
+    menu_choice = prompt.select("Welcome! What would you like to do?", menu_choices)
+
+    if menu_choice == "Go to Locations"
+      spinner
+      list_locations
+    elsif menu_choice == "List Allies"
+      spinner
+      if Npc.list_allies != []
+        puts Npc.list_allies.pluck(:name)
+        sleep(2)
+        menu
+      else
+        puts "no current allies"
+        sleep(2)
+        menu
+      end
+    elsif menu_choice == "List Attacks"
+      spinner
+      if get_allies_attacks != []
+        puts get_allies_attacks.pluck(:name, :max, :min)
+        sleep(2)
+        menu
+      else
+        puts "no current attacks"
+        sleep(2)
+        menu
+      end
+    else
+      exit
+    end
+
+  end
+
 
 
   def get_allies_attacks
@@ -35,26 +81,15 @@ class Cli
     attacks.flatten
   end
 
+
   def list_locations
     system('clear')
 
-    locations = Location.all.pluck(:name) << "Go Back" 
-    locations << "List Allies"
-    locations << "List Attacks"
+    locations = Location.all.pluck(:name) << "Go to Menu" 
     location = prompt.select("Where would you like to go?", locations)
-    if location == "Go Back"
-      welcome
-    end
-
-    if location == "List Allies"
-      puts Npc.list_allies.pluck(:name)
-      #binding.pry
-      list_locations
-    end
-    if location == "List Attacks"
-      attacks = get_allies_attacks
-      puts attacks.pluck(:name, :max, :min)
-      list_locations
+    if location == "Go to Menu"
+      
+      menu
     end
 
     if location == "Dungeon"
@@ -112,6 +147,11 @@ class Cli
 
 
   def dungeon
+    if Npc.list_allies == []
+      puts "It is dangerous to go alone. Best find some allies to help you fight!"
+      sleep(2)
+      menu 
+    end
 
     ask = prompt.yes?("Are you sure you're ready to face the dragon?")
     if ask
@@ -126,12 +166,13 @@ class Cli
     puts "Your team is at #{@@player_health} health"
     puts "The Dragon is at #{@@dragon_health} health"
 
-
-    spinner = TTY::Spinner.new(frames:"⚔️")
-    spinner.auto_spin
-    sleep(3)
-    spinner.stop
     sleep(2)
+
+
+    # spinner = TTY::Spinner.new(frames:'🐉')
+    # spinner.auto_spin
+    # sleep(3)
+    # spinner.stop
 
     attack = prompt.select("Choose attack", get_allies_attacks.pluck(:name))
     attack = Attack.gets_attack_by_name(attack)
@@ -144,7 +185,7 @@ class Cli
 
     if @@dragon_health < 1
       puts "You have defeated the Dragon!"
-      exit_game
+      good_ending
     end
 
     dragon_damage = rand(@@dragon_damage_min..@@dragon_damage_max)
@@ -154,12 +195,24 @@ class Cli
 
     if @@player_health < 1
       puts "You have died"
-      exit_game
+      bad_ending
     end
 
-    sleep(3)
+    sleep(2)
     # binding.pry
     turn
+  end
+
+  def good_ending 
+    system('clear')
+    puts "Congradulations! Your team defeated the dragon with #{@@player_health} health left"
+    exit_game
+  end
+
+  def bad_ending 
+    system('clear')
+    puts "I'm sorry... the dragon bested you team with #{@@dragon_health} health left"
+    exit_game
   end
 
   def exit_game
