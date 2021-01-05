@@ -14,6 +14,7 @@ merek = Npc.create name: "Merek", character_class: "Thief", ally: 0, location_id
 henry = Npc.create name: "Henry", character_class: "Farmer", ally: 0, location_id: farm.id
 fenwick = Npc.create name: "Sir John Fenwick", character_class: "Knight", ally: 0, location_id: castle.id
 
+
 wizard_attack_1 = Attack.create name: "Fireball", max: 40, min: 30, npc_id: ulric.id
 wizard_attack_2 = Attack.create name: "Lightning", max: 60, min: 25, npc_id: ulric.id
 archer_attack_1 = Attack.create name: "Arrow Storm", max: 65, min: 20, npc_id: mantagu.id
