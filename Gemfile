@@ -14,3 +14,5 @@ gem "require_all", "~> 3.0"
 
 gem "tty-prompt", "~> 0.23.0"
 gem "tty-spinner"
+
+gem "colorize"

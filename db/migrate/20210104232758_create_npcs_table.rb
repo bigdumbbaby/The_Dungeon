@@ -4,6 +4,7 @@ class CreateNpcsTable < ActiveRecord::Migration[6.0]
       t.string :name 
       t.string :character_class
       t.integer :ally
+      t.string :image
       t.references :location
     end
   end
