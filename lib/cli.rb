@@ -6,12 +6,20 @@ class Cli
     TTY::Prompt.new(symbols: {marker: '🛡'})
   end
 
+  def pause
+    print "            \n"
+    print "Press any key to continue".colorize(:yellow)
+    STDIN.getch
+    print "            \r" # extra space to overwrite in case next sentence is short
+  end 
 
-  def spinner 
-    spin= TTY::Spinner.new("[:spinner] Loading ...", format: :dots)
+
+  def spinner info
+    spin= TTY::Spinner.new("[:spinner] Ariving at...", format: :dots)
     spin.auto_spin # Automatic animation with default interval
     sleep(2) # Perform task
-    spin.stop("Done!") # Stop animation
+    spin.stop("#{info}") # Stop animation
+    sleep(0.5)
   end
 
   def start_game
@@ -26,12 +34,12 @@ class Cli
     Ascii_art.title
     Ascii_art.castle
     puts "Welcome Adventurer"
-    puts "Your quest is to slay the dragon in the dungeon"
+    puts "Your quest is to slay the Dragon in the Dungeon."
     puts "However, the dragon is tough, and you will not be able to do it alone"
     puts "So go out and find allies to heed you in the quest"
     ask = prompt.yes?("Whould you like to continue?")
     if ask 
-      spinner
+      spinner("Menu")
       menu
     else 
       return
@@ -44,32 +52,38 @@ class Cli
     menu_choices = ["List Allies", "List Attacks", "Go to Locations", "Quit Game"]
     menu_choice = prompt.select("Welcome! What would you like to do?", menu_choices)
     if menu_choice == "Go to Locations"
-      spinner
+      spinner ("Locations")
       list_locations
     elsif menu_choice == "List Allies"
-      spinner
+      spinner("Allies list")
       if Npc.list_allies != []
-        puts Npc.list_allies.pluck(:name)
-        sleep(2)
+        Npc.list_allies.each do |ally|
+          puts "#{ally.name} the #{ally.character_class}"
+        end
+        pause
         menu
       else
         puts "no current allies"
-        sleep(2)
+        pause
         menu
       end
     elsif menu_choice == "List Attacks"
-      spinner
+      spinner("Attacks List")
       if get_allies_attacks != []
-        puts get_allies_attacks.pluck(:name, :max, :min)
-        sleep(2)
+        #puts get_allies_attacks.pluck(:name, :max, :min)
+        ally_attacks = get_allies_attacks
+        ally_attacks.each do |attack|
+          puts "#{attack.name} - Min Damage: #{attack.min} Max Damage:#{attack.max}"
+        end
+        pause
         menu
       else
         puts "no current attacks"
-        sleep(2)
+        pause
         menu
       end
     else
-      exit
+      exit_game
     end
 
   end
@@ -91,17 +105,17 @@ class Cli
     locations = Location.all.pluck(:name) << "Go to Menu" 
     location = prompt.select("Where would you like to go?", locations)
     if location == "Go to Menu"
-      spinner
+      spinner ("Menu")
       menu
     end
 
     if location == "Dungeon"
-      spinner
+      spinner("the Dungeon")
       dungeon(location)
     end
 
     location = Location.find_location_by_name(location)
-    spinner
+    spinner("the #{location.name}")
     list_npcs(location)
   end
 
@@ -109,11 +123,11 @@ class Cli
     system('clear')
     puts "Welcome to the #{place.name}"
     puts place.image
-    sleep(2)
+
     npcs = place.npcs.pluck(:name) << "Go Back"
     npc = prompt.select("Who do you want to talk to?",  npcs)
     if npc == "Go Back"
-      spinner
+      spinner("Locations")
       list_locations
     end
     npc = Npc.all.find{ |person| person.name == npc}
@@ -125,7 +139,7 @@ class Cli
     system('clear')
     location = person.location
     puts person.image
-    puts "Hello, my name is #{person.name}, the #{person.character_class}. What brings you to this #{location.name}?"
+    puts "Hello, my name is #{person.name}, the #{person.character_class}. What brings you to this #{location.name}?".colorize(:cyan)
     conversation = ["Will you join me on my quest to defeat the dragon?", "Just passing through"]
 
     if person.ally == 1
@@ -135,20 +149,22 @@ class Cli
     end
     answer = prompt.select("What do you say?", conversation)
     if answer == "Will you join me on my quest to defeat the dragon?"
-      puts "I would love to join"
+      puts "I would love to join".colorize(:cyan)
       person.update(ally: 1)
-      puts "#{person.name} has joined your team!"
-      sleep(2)
+      puts "\n"
+      puts "#{person.name} has joined your team!".colorize(:green)
+      pause
       list_npcs place
     elsif  answer == "I'm gonna need you to sit out this fight"
-      puts "I gotta say I'm sad about your decision, but I understand"
+      puts "I gotta say I'm sad about your decision, but I understand".colorize(:cyan)
       person.update(ally: 0)
-      puts "#{person.name} has left your team!"
-      sleep(2)
+      puts "\n"
+      puts "#{person.name} has left your team!".colorize(:red)
+      pause
       list_npcs place
     else
-      puts "Have a good day!"
-      sleep(2)
+      puts "Have a good day!".colorize(:cyan)
+      pause
       list_npcs place
     end
   end
@@ -163,7 +179,7 @@ class Cli
   def dungeon place
     if Npc.list_allies == []
       puts "It is dangerous to go alone. Best find some allies to help you fight!"
-      sleep(2)
+      pause
       menu 
     end
 
@@ -180,15 +196,18 @@ class Cli
 
     puts "Your team is at #{@@player_health} health"
     puts "The Dragon is at #{@@dragon_health} health"
-
+    puts "\n"
     sleep(2)
 
     attack = prompt.select("Choose attack", get_allies_attacks.pluck(:name))
     attack = Attack.gets_attack_by_name(attack)
     damage = rand(attack.min..attack.max)
+    pid = fork{ exec 'afplay', 'lib/mp3/sword.mp3' }
     puts "You did #{damage} damage to the Dragon!"
     puts attack.image
     @@dragon_health = @@dragon_health - damage
+
+    puts "\n"
 
 
     sleep(2)
@@ -199,6 +218,7 @@ class Cli
     end
 
     dragon_damage = rand(@@dragon_damage_min..@@dragon_damage_max)
+    pid = fork{ exec 'afplay', 'lib/mp3/dragon.mp3' }
     puts "Dragon dealt #{dragon_damage} damage to the group"
     Ascii_art.dragon
     @@player_health = @@player_health - dragon_damage
@@ -208,26 +228,30 @@ class Cli
       puts "You have died"
       bad_ending
     end
-
+    puts "\n"
     sleep(2)
     # binding.pry
+    pause
     turn
   end
 
   def good_ending 
     system('clear')
-    puts "Congradulations! Your team defeated the dragon with #{@@player_health} health left"
+    Ascii_art.congradulations
+    puts "Your team defeated the dragon with #{@@player_health} health left"
     exit_game
   end
 
   def bad_ending 
     system('clear')
+    Ascii_art.gameover
     puts "I'm sorry... the dragon bested you and your team with #{@@dragon_health} health left"
     exit_game
   end
 
   def exit_game
     puts "Thanks for playing"
+    pid = fork{ exec 'killall', "afplay"}
     exit
   end
 end
