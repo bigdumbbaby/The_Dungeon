@@ -80,11 +80,10 @@ class Cli
       end
     elsif menu_choice == "List Attacks"
       spinner("Attacks List")
-      allies_attacks = get_allies_attacks
-      if allies_attacks != []
+      if get_allies_attacks != []
         system('clear')
         Ascii_art.attack_list
-        allies_attacks.each do |attack|
+        get_allies_attacks.each do |attack|
           puts "#{attack.name} - Min Damage: #{attack.min} Max Damage:#{attack.max}"
         end
         pause
@@ -103,7 +102,6 @@ class Cli
 
 
   def get_allies_attacks
-    system('clear')
     allies = Npc.list_allies
     attacks = []
     allies.each {|ally| attacks << ally.get_attacks}

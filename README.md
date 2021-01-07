@@ -24,7 +24,7 @@ Jump into the game and find yourself with a quest to fight the the all mighty dr
 ## Setup
 To run this project, first, install it locally by typing the following in the terminal:
 ```
-git clone https://github.com/bigdumbbaby/mod1_project
+git clone https://github.com/bigdumbbaby/The_Dungeon
 ```
 Then CD into the repository and run the following:
 ```
