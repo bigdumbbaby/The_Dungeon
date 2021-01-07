@@ -5,6 +5,7 @@ class CreateAttacksTable < ActiveRecord::Migration[6.0]
       t.integer :max
       t.integer :min
       t.string :image
+      t.string :sound
       t.references :npc
     end
   end

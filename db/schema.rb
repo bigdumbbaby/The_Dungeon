@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2021_01_05_001759) do
     t.integer "max"
     t.integer "min"
     t.string "image"
+    t.string "sound"
     t.integer "npc_id"
     t.index ["npc_id"], name: "index_attacks_on_npc_id"
   end
@@ -24,6 +25,7 @@ ActiveRecord::Schema.define(version: 2021_01_05_001759) do
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.string "image"
+    t.string "song"
   end
 
   create_table "npcs", force: :cascade do |t|

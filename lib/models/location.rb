@@ -8,4 +8,9 @@ class Location < ActiveRecord::Base
   def self.find_location_by_name name 
     Location.all.find{ |place| place.name == name}
   end
+
+  def location_theme 
+    pid = fork{ exec 'killall', "afplay"}
+    pid = fork{ exec 'afplay', self.song }
+  end
 end

@@ -89,10 +89,15 @@ _ |/|#######/    #################### |/########|__ |/___
                /
               V"
 
-tavern = Location.create name: "Tavern", image: tavern_image
-farm = Location.create name: "Farm", image: farm_image
-castle = Location.create name: "Castle", image: castle_image
-dungeon = Location.create name: "Dungeon", image: dungeon_image
+tavern_song = "lib/mp3/tavern.mp3"
+farm_song = "lib/mp3/farm.mp3"
+castle_song = "lib/mp3/castle.mp3"
+dungeon_song = "lib/mp3/dungeon.mp3"
+
+tavern = Location.create name: "Tavern", image: tavern_image, song: tavern_song
+farm = Location.create name: "Farm", image: farm_image, song: farm_song
+castle = Location.create name: "Castle", image: castle_image, song: castle_song
+dungeon = Location.create name: "Dungeon", image: dungeon_image, song: dungeon_song
 
 ulric_image = "
                   .
@@ -284,7 +289,7 @@ fireball_image = "
           | ;  :|     
  _____.,-#%&$@%#&#~,._____
 "
-lightnign_image = "
+lightning_image = "
      _, .--.
     (  / (  '-.
     .-=-.    ) -.
@@ -446,17 +451,25 @@ jgs   ;   (__||      ||__)   ;
         '. ---/-=..=-|--- .'
           `""`        `""`
 "
+sword_sound = "lib/mp3/sword.mp3"
+fireball_sound = "lib/mp3/fireball.mp3"
+lightning_sound = "lib/mp3/lightning.mp3"
+arrows_sound = "lib/mp3/arrows.mp3"
+smash_sound = "lib/mp3/smash.mp3"
+sing_sound = "lib/mp3/sing.mp3"
+poison_sound = "lib/mp3/poison.mp3"
+torch_sound = "lib/mp3/torch.mp3"
+tackle_sound = "lib/mp3/tackle.mp3"
 
-
-wizard_attack_1 = Attack.create name: "Fireball", max: 40, min: 30, image: fireball_image, npc_id: ulric.id
-wizard_attack_2 = Attack.create name: "Lightning", max: 60, min: 25, image: lightnign_image, npc_id: ulric.id
-archer_attack_1 = Attack.create name: "Arrow Storm", max: 65, min: 20, image: arrow_image, npc_id: mantagu.id
-archer_attack_2 = Attack.create name: "Dagger Slash", max: 40, min: 39, image: dagger_image, npc_id: mantagu.id
-bard_attack_1 = Attack.create name: "Guitar Smash", max: 35, min: 35, image: guitar_image, npc_id: borin.id
-bard_attack_2 = Attack.create name: "Singing", max: 1, min: 0, image: singing_image, npc_id: borin.id
-thief_attack_1 = Attack.create name: "Back Stab", max: 65, min: 20, image:backstab_image, npc_id: merek.id
-thief_attack_2 = Attack.create name: "Poison", max: 70, min: 10, image: poison_image, npc_id: merek.id
-farmer_attack_1 = Attack.create name: "Pichfork", max: 20, min: 15, image: pitchfork_image, npc_id: henry.id
-farmer_attack_2 = Attack.create name: "Throw Torch", max: 50, min: 5, image: torch_image, npc_id: henry.id
-knight_attack_1 = Attack.create name: "Sword Dance", max: 90, min: 20, image: sword_image, npc_id: fenwick.id 
-kngiht_attack_2 = Attack.create name: "Tackle", max: 20, min: 5, image: tackle_image, npc_id: fenwick.id 
+wizard_attack_1 = Attack.create name: "Fireball", max: 40, min: 30, image: fireball_image, sound: fireball_sound, npc_id: ulric.id
+wizard_attack_2 = Attack.create name: "Lightning", max: 60, min: 25, image: lightning_image, sound: lightning_sound, npc_id: ulric.id
+archer_attack_1 = Attack.create name: "Arrow Storm", max: 65, min: 20, image: arrow_image, sound: arrows_sound, npc_id: mantagu.id
+archer_attack_2 = Attack.create name: "Dagger Slash", max: 40, min: 39, image: dagger_image, sound: sword_sound, npc_id: mantagu.id
+bard_attack_1 = Attack.create name: "Guitar Smash", max: 35, min: 35, image: guitar_image, sound: smash_sound, npc_id: borin.id
+bard_attack_2 = Attack.create name: "Singing", max: 1, min: 0, image: singing_image, sound: sing_sound, npc_id: borin.id
+thief_attack_1 = Attack.create name: "Back Stab", max: 65, min: 20, image: backstab_image, sound: sword_sound, npc_id: merek.id
+thief_attack_2 = Attack.create name: "Poison", max: 70, min: 10, image: poison_image, sound: poison_sound, npc_id: merek.id
+farmer_attack_1 = Attack.create name: "Pichfork", max: 20, min: 15, image: pitchfork_image, sound: sword_sound, npc_id: henry.id
+farmer_attack_2 = Attack.create name: "Throw Torch", max: 50, min: 5, image: torch_image, sound: torch_sound, npc_id: henry.id
+knight_attack_1 = Attack.create name: "Sword Dance", max: 90, min: 20, image: sword_image, sound: sword_sound, npc_id: fenwick.id 
+kngiht_attack_2 = Attack.create name: "Tackle", max: 20, min: 5, image: tackle_image, sound: tackle_sound, npc_id: fenwick.id

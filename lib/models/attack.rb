@@ -4,4 +4,8 @@ class Attack < ActiveRecord::Base
   def self.gets_attack_by_name name
     all.find{ |attack| attack.name == name}
   end
+
+  def play_sound 
+    pid = fork{ exec 'afplay', self.sound }
+  end
 end
