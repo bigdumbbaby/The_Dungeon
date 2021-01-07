@@ -22,9 +22,15 @@ Jump into the game and find yourself with a quest to fight the the all mighty dr
 
 
 ## Setup
-To run this project, install it locally by cloning the GitHub repository and typing:
-```ruby
-ruby config/environment.rb
+To run this project, install it locally typing the following:
+```
+git clone https://github.com/bigdumbbaby/mod1_project
+rake db:migrate
+rake db:seed
+```
+Then run the game with: 
+```
+ruby runner.rb
 ```
 
 ## Code Examples
