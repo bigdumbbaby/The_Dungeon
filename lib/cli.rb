@@ -10,7 +10,7 @@ class Cli
     print "            \n"
     print "Press any key to continue".colorize(:yellow)
     STDIN.getch
-    print "            \r" # extra space to overwrite in case next sentence is short
+    print "            \r" 
   end 
 
 
