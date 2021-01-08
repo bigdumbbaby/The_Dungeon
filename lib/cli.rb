@@ -44,7 +44,7 @@ class Cli
     Ascii_art.castle
     puts "Welcome Adventurer!"
     puts "Your quest is to slay the Dragon in the Dungeon."
-    puts "However, the dragon is feace, and you will not be able take him on alone."
+    puts "However, the dragon is fierce, and you will not be able take him on alone."
     puts "So go out, and find allies to join you in this quest!"
     ask = prompt.yes?("Whould you like to continue?")
     if ask 
