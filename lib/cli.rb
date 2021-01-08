@@ -42,7 +42,7 @@ class Cli
     system('clear')
     Ascii_art.title
     Ascii_art.castle
-    puts "Welcome Adventurer"
+    puts "Welcome Adventurer!"
     puts "Your quest is to slay the Dragon in the Dungeon."
     puts "However, the dragon is feace, and you will not be able take him on alone."
     puts "So go out, and find allies to join you in this quest!"
