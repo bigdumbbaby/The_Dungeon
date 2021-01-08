@@ -28,6 +28,7 @@ git clone https://github.com/bigdumbbaby/The_Dungeon
 ```
 Then CD into the repository and run the following:
 ```
+bundle install
 rake db:migrate
 rake db:seed
 ```
