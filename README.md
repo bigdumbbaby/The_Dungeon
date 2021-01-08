@@ -8,7 +8,7 @@ The Dungeon is a CLI application that allows users to jump into a RPG style game
 Jump into the game and find yourself with a quest to fight the the all mighty dragon. But first you will need to find allies to join you on the great challenge ahead.
 
 ## Intro Video
-[The Dungeon on YouTube]()
+[The Dungeon on YouTube](https://youtu.be/2RNeMRU8Va4)
 
 ## Technologies
 * Ruby - version 2.6.5
